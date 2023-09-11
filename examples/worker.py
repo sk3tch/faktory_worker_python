@@ -27,10 +27,10 @@ def multiply_numbers(x, y):
 
 
 if __name__ == "__main__":
-    w = Worker(faktory="tcp://localhost:7419", queues=["default"], concurrency=1)
+    w = Worker(queues=["default"], concurrency=10)
     w.register("add", add_numbers)
-    w.register("subtract", subtract_numbers)
-    w.register("multiply", multiply_numbers)
+    #w.register("subtract", subtract_numbers)
+    #w.register("multiply", multiply_numbers)
     w.run()  # runs until control-c or worker shutdown from Faktory web UI
 
 # check examples/producer.py for how to submit tasks to be run by faktory

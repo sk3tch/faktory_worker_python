@@ -179,12 +179,19 @@ class Worker:
                 self.disconnect(force=True, wait=15)
                 break
 
+            # added a check for can_disconnect, checks if futures queue is empty
+            # if it is we exit the while loop
+            if self.can_disconnect:
+                break
+
         if self.faktory.is_connected:
             self.log.warning("Forcing worker processes to shutdown...")
             self.disconnect(force=True)
 
         self.executor.shutdown(wait=False)
-        sys.exit(1)
+        # changed to exit(0) to keep Titus happy (really this should be an expected exit because queue is empty)
+        # only other option seems to be because of a keyboard interrupt
+        sys.exit(0)
 
     def disconnect(self, force=False, wait=30):
         """
